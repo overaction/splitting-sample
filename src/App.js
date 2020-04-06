@@ -1,32 +1,24 @@
-import React from 'react';
+import React, { useState, Suspense } from 'react';
 import logo from './logo.svg';
 import './App.css';
-//import notify from './notify';
+const SplitMe = React.lazy(() => import('./SplitMe'));
 
 function App() {
+    const [visible, setVisible] = useState(false);
     const onClick = () => {
-        //notify();
-        import('./notify').then(result => result.default());
-    }
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p onClick={onClick}>Hello React</p>
-      </header>
-    </div>
-  );
+        setVisible(true);
+    };
+    return (
+        <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <p onClick={onClick}>Hello</p>
+                <Suspense fallback={<div>loading...</div>}>
+                    {visible && <SplitMe />}
+                </Suspense>
+            </header>
+        </div>
+    )
 }
 
 export default App;
